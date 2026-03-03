@@ -11,10 +11,8 @@ import com.gracefeed.core.data.local.AppSettings
 import com.gracefeed.core.data.notifications.IosPushNotificationService
 import com.gracefeed.core.data.notifications.PushNotificationService
 // [push_notifications] end
-// [firestore] start
-// import com.gracefeed.core.data.firestore.FirestoreService
-// import com.gracefeed.core.data.firestore.getFirestoreService
-// [firestore] end
+import com.gracefeed.core.data.firestore.FirestoreService
+import com.gracefeed.core.data.firestore.getFirestoreService
 // [messaging] start
 // import com.gracefeed.core.data.messaging.RealtimeDbService
 // import com.gracefeed.core.data.messaging.getRealtimeDbService
@@ -64,9 +62,7 @@ actual fun platformModule() = module {
     single<DeepLinkHandler> { DefaultDeepLinkHandler() }
     // [deep_linking] end
 
-    // [firestore] start
-    // single<FirestoreService> { getFirestoreService() }
-    // [firestore] end
+    single<FirestoreService> { getFirestoreService() }
 
     // [messaging] start
     // single<RealtimeDbService> { getRealtimeDbService() }

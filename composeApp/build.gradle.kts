@@ -9,9 +9,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
-    // [firebase] start
-    // alias(libs.plugins.google.services)
-    // [firebase] end
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -53,23 +51,29 @@ kotlin {
             implementation(libs.androidx.media3.exoplayer)
             implementation(libs.androidx.media3.ui)
             // [video_playback] end
-            // [maps] start
             implementation(libs.google.maps.compose)
             implementation(libs.google.play.services.maps)
-            // [maps] end
 
-            // [firebase] start
             implementation(project.dependencies.platform(libs.firebase.bom))
-            // implementation(libs.firebase.analytics)
-            // implementation(libs.firebase.crashlytics)
-            // [firebase] end
+            implementation(libs.firebase.analytics)
+            implementation(libs.firebase.crashlytics)
             // [push_notifications]
             implementation(libs.firebase.messaging)
-            // [firestore]
             implementation(libs.firebase.firestore)
             // [messaging]
             implementation(libs.firebase.database)
-        }
+        
+
+        // Video player (Media3/ExoPlayer)
+        implementation("androidx.media3:media3-exoplayer:1.2.1")
+        implementation("androidx.media3:media3-ui-compose:1.2.1")
+        implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+
+        // Google Maps
+        implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+        // Firebase Firestore
+        implementation("com.google.firebase:firebase-firestore-ktx")}
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

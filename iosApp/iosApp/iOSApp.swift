@@ -1,26 +1,20 @@
 import SwiftUI
 import ComposeApp
-// [firebase] start
-// import FirebaseCore
-// import FirebaseMessaging
-// [firebase] end
+import FirebaseCore
+import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    // [firebase] start
-    // Note: Add MessagingDelegate, UNUserNotificationCenterDelegate to AppDelegate conformance
-    // [firebase] end
+    Note: Add MessagingDelegate, UNUserNotificationCenterDelegate to AppDelegate conformance
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        // [firebase] start
-        // FirebaseApp.configure()
-        // Messaging.messaging().delegate = self
-        // UNUserNotificationCenter.current().delegate = self
-        // [firebase] end
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
 
-        // [firestore] FirestoreServiceFactory.registerFactory()
+        FirestoreServiceFactory.registerFactory()
 
         // [push_notifications] start
         application.registerForRemoteNotifications()
@@ -45,37 +39,33 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        // [firebase] start
-        // Messaging.messaging().apnsToken = deviceToken
-        // [firebase] end
+        Messaging.messaging().apnsToken = deviceToken
     }
 
-    // [firebase] start
-    // func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-    //     guard let token = fcmToken else { return }
-    //     IosPushNotificationService.companion.fcmToken = token
-    // }
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        guard let token = fcmToken else { return }
+        IosPushNotificationService.companion.fcmToken = token
+    }
 
-    // func userNotificationCenter(
-    //     _ center: UNUserNotificationCenter,
-    //     willPresent notification: UNNotification,
-    //     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    // ) {
-    //     let userInfo = notification.request.content.userInfo
-    //     let messageId = userInfo["gcm.message_id"] as? String ?? ""
-    //     let title = notification.request.content.title
-    //     let body = notification.request.content.body
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let userInfo = notification.request.content.userInfo
+        let messageId = userInfo["gcm.message_id"] as? String ?? ""
+        let title = notification.request.content.title
+        let body = notification.request.content.body
     //
-    //     IosPushNotificationService.companion.onMessageReceived(
-    //         messageId: messageId,
-    //         title: title,
-    //         body: body,
-    //         data: [:]
-    //     )
+        IosPushNotificationService.companion.onMessageReceived(
+            messageId: messageId,
+            title: title,
+            body: body,
+            data: [:]
+        )
     //
-    //     completionHandler([.banner, .sound, .badge])
-    // }
-    // [firebase] end
+        completionHandler([.banner, .sound, .badge])
+    }
     // [push_notifications] end
 }
 

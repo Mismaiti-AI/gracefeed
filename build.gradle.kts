@@ -9,8 +9,6 @@ plugins {
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.androidx.room) apply false
-    // [firebase] start
-    // alias(libs.plugins.google.services) apply false
-    // [firebase] end
+    alias(libs.plugins.google.services) apply false
 
 }
