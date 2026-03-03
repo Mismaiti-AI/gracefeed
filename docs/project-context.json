@@ -1,0 +1,252 @@
+{
+  "app_config": {
+    "name": "GraceFeed",
+    "package": "com.gracefeed",
+    "purpose": "Share information of activities, events, articles, to congregation member"
+  },
+  "features": [
+    {
+      "api_endpoints": [],
+      "description": "Weekly digital bulletin replacing PDFs, featuring news, events, daily verse, and weekday gatherings",
+      "display_name": "Bulletin",
+      "name": "Bulletin Feed",
+      "priority": "high",
+      "repositories": [],
+      "screens": [
+        {
+          "display_name": "Bulletin List",
+          "name": "BulletinListScreen"
+        },
+        {
+          "display_name": "Bulletin Detail",
+          "name": "BulletinDetailScreen"
+        }
+      ],
+      "use_cases": [
+        "Browse weekly bulletins",
+        "View full bulletin details",
+        "Save important bulletins for later reference"
+      ]
+    },
+    {
+      "api_endpoints": [],
+      "description": "Display weekly Sunday service schedule with ability to show merged or modified services for special weeks",
+      "display_name": "Services",
+      "name": "Service Schedule",
+      "priority": "high",
+      "repositories": [],
+      "screens": [
+        {
+          "display_name": "Service List",
+          "name": "ServiceListScreen"
+        },
+        {
+          "display_name": "Service Detail",
+          "name": "ServiceDetailScreen"
+        }
+      ],
+      "use_cases": [
+        "View this week's active services",
+        "See service times and locations",
+        "Check for special combined services",
+        "Read weekly service notes"
+      ]
+    },
+    {
+      "api_endpoints": [],
+      "description": "Browse church events (one-time and recurring) with RSVP option and category filtering",
+      "display_name": "Events",
+      "name": "Event Calendar",
+      "priority": "high",
+      "repositories": [],
+      "screens": [
+        {
+          "display_name": "Event Calendar",
+          "name": "EventCalendarScreen"
+        },
+        {
+          "display_name": "Event Detail",
+          "name": "EventDetailScreen"
+        }
+      ],
+      "use_cases": [
+        "View upcoming events",
+        "See event details and location",
+        "RSVP to events (optional)",
+        "Filter by category",
+        "Check recurring event schedule"
+      ]
+    },
+    {
+      "api_endpoints": [],
+      "description": "Archive of Sunday sermons with YouTube video playback for all service types",
+      "display_name": "Sermons",
+      "name": "Sermon Archive",
+      "priority": "high",
+      "repositories": [],
+      "screens": [
+        {
+          "display_name": "Sermon List",
+          "name": "SermonListScreen"
+        },
+        {
+          "display_name": "Sermon Detail",
+          "name": "SermonDetailScreen"
+        }
+      ],
+      "use_cases": [
+        "Browse past sermons by date",
+        "Watch sermon videos on YouTube player",
+        "Filter by service type (Kebaktian Umum, Pemuda, etc.)",
+        "View sermon title and speaker"
+      ]
+    },
+    {
+      "api_endpoints": [],
+      "description": "Welcome walkthrough for first-time users (3 pages)",
+      "display_name": "Onboarding",
+      "name": "Onboarding",
+      "priority": "medium",
+      "repositories": [],
+      "screens": [
+        {
+          "display_name": "Onboarding",
+          "name": "OnboardingScreen"
+        }
+      ],
+      "use_cases": [
+        "Show welcome message",
+        "Explain key features",
+        "Guide new users"
+      ]
+    },
+    {
+      "api_endpoints": [],
+      "description": "App preferences including dark mode toggle",
+      "display_name": "Settings",
+      "name": "Settings",
+      "priority": "medium",
+      "repositories": [],
+      "screens": [
+        {
+          "display_name": "Settings",
+          "name": "SettingsScreen"
+        }
+      ],
+      "use_cases": [
+        "Toggle dark mode",
+        "View app info"
+      ]
+    }
+  ],
+  "data_models": [
+    {
+      "fields": [
+        "id: String",
+        "title: String",
+        "weekStartDate: Instant",
+        "dailyVerse: String",
+        "newsContent: String",
+        "events: String",
+        "weekdayGatherings: String"
+      ],
+      "layer": "domain",
+      "name": "Bulletin",
+      "relationships": []
+    },
+    {
+      "fields": [
+        "id: String",
+        "serviceName: String",
+        "regularTime: String",
+        "regularLocation: String",
+        "isActiveThisWeek: Boolean",
+        "specialNote: String"
+      ],
+      "layer": "domain",
+      "name": "Service",
+      "relationships": []
+    },
+    {
+      "fields": [
+        "id: String",
+        "title: String",
+        "startDate: Instant",
+        "endDate: Instant",
+        "isRecurring: Boolean",
+        "recurrencePattern: String",
+        "description: String",
+        "location: String",
+        "category: String",
+        "hasRsvp: Boolean",
+        "rsvpLink: String"
+      ],
+      "layer": "domain",
+      "name": "Event",
+      "relationships": []
+    },
+    {
+      "fields": [
+        "id: String",
+        "title: String",
+        "date: Instant",
+        "serviceName: String",
+        "speaker: String",
+        "youtubeUrl: String",
+        "biblePassage: String"
+      ],
+      "layer": "domain",
+      "name": "Sermon",
+      "relationships": []
+    },
+    {
+      "fields": [
+        "id: String",
+        "darkModeEnabled: Boolean"
+      ],
+      "layer": "domain",
+      "name": "AppSetting",
+      "relationships": []
+    }
+  ],
+  "backend_config": {
+    "config": {},
+    "type": "firebase"
+  },
+  "ui_design": {
+    "app_icon_prompt": "minimalist app icon, Elegant app icon for a church communication app, deep rich color theme with burgundy (#8B0000) and navy blue (#000080), refined style with subtle gradients, symbolic open Bible motif representing scripture and sermons, gold foil accents for luxury, app icon, no text, no letters, no words, flat design, vibrant colors, centered composition, no text, no shadows, no rounded corners, 1024x1024",
+    "app_icon_url": "https://dashscope-result-sh.oss-cn-shanghai.aliyuncs.com/7d/df/20260303/d23adf3d/038aec66-7da6-98cb-bc73-7f5aa27d4ac54051992864.png?Expires=1773130838&OSSAccessKeyId=LTAI5tKPD3TMqf2Lna1fASuh&Signature=5B3CN0A8GHcQWFdqfdlt9VGLcRw%3D",
+    "has_dark_mode": true,
+    "palette_style": "Expressive",
+    "seed_color": "#8B0000",
+    "style": "elegant"
+  },
+  "platform_features_config": {
+    "features_configured": [
+      "firebase",
+      "android_config",
+      "ios_config",
+      "auth"
+    ],
+    "firebase_project_id": "gracefeed",
+    "manual_steps_required": [
+      {
+        "description": "Apple Sign-In requires configuration in Apple Developer Console, Firebase Console, and Xcode",
+        "feature": "auth_apple_setup",
+        "requires_team_setup": true,
+        "steps": [
+          "Configure Sign in with Apple service ID in Apple Developer Console",
+          "Create a private key for Sign in with Apple",
+          "Enable Apple as sign-in provider in Firebase Console with Service ID + Key",
+          "Add \"Sign in with Apple\" capability in Xcode project"
+        ],
+        "urls": {
+          "apple_developer": "https://developer.apple.com/account/resources/identifiers/list",
+          "firebase_console": "https://console.firebase.google.com/project/gracefeed/authentication/providers"
+        }
+      }
+    ],
+    "setup_completed_at": "2026-03-03T09:29:14.914166",
+    "web_client_id": "895655507033-jn7chf3189n95i0j3egfcubfhnlm7o9m.apps.googleusercontent.com"
+  }
+}

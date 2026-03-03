@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "895655507033",
+    "project_id": "gracefeed",
+    "storage_bucket": "gracefeed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895655507033:android:2d843067e7400c97afad48",
+        "android_client_info": {
+          "package_name": "com.gracefeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895655507033-jn7chf3189n95i0j3egfcubfhnlm7o9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpu_d5ICdQPCdCJgaDgT0BQKbldR98b0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895655507033-jn7chf3189n95i0j3egfcubfhnlm7o9m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "895655507033-hrv5mrnd8fsgm4u0lsieal03u02a2uph.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gracefeed"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
