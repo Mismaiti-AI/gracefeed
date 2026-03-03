@@ -65,12 +65,12 @@ kotlin {
         
 
         // Video player (Media3/ExoPlayer)
-        implementation("androidx.media3:media3-exoplayer:1.2.1")
-        implementation("androidx.media3:media3-ui-compose:1.2.1")
-        implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+        implementation("androidx.media3:media3-exoplayer:1.9.2")
+        implementation("androidx.media3:media3-ui-compose:1.9.2")
+        implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
 
         // Google Maps
-        implementation("com.google.android.gms:play-services-maps:18.2.0")
+        implementation("com.google.android.gms:play-services-maps:20.0.0")
 
         // Firebase Firestore
         implementation("com.google.firebase:firebase-firestore-ktx")}

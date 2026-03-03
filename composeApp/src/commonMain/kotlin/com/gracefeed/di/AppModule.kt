@@ -44,6 +44,8 @@ import com.gracefeed.presentation.sermonarchive.SermonListViewModel
 import com.gracefeed.presentation.sermonarchive.SermonDetailViewModel
 import com.gracefeed.presentation.settings.SettingsViewModel
 import com.gracefeed.presentation.dashboard.DashboardViewModel
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.viewModel
 
 fun moduleList(): List<Module> = listOf(
     platformModule(),
@@ -91,7 +93,7 @@ fun appModule() = module {
     viewModelOf(::ServiceListViewModel)
     viewModelOf(::ServiceDetailViewModel)
     viewModelOf(::EventCalendarViewModel)
-    viewModel { params -> EventDetailViewModel(params.get(), get()) }
+    viewModel { params -> EventDetailViewModel( get()) }
     viewModelOf(::SermonListViewModel)
     viewModelOf(::SermonDetailViewModel)
     viewModelOf(::SettingsViewModel)

@@ -67,12 +67,12 @@ fun App(koinAppDeclaration: KoinAppDeclaration? = null) {
                 showTopBar = false,
                 homeBuilder = { nav ->
                     // Tab destinations (bottom bar visible)
-                    composable<AppRoutes.Dashboard> { DashboardScreen(nav) }
-                    composable<AppRoutes.Bulletin> { BulletinListScreen(nav) }
-                    composable<AppRoutes.Services> { ServiceListScreen(nav) }
-                    composable<AppRoutes.Events> { EventCalendarScreen(nav) }
-                    composable<AppRoutes.Sermons> { SermonListScreen(nav) }
-                    composable<AppRoutes.Settings> { SettingsScreen(nav) }
+                    composable<AppRoutes.Dashboard> { DashboardScreen() }
+                    composable<AppRoutes.Bulletin> { BulletinListScreen() }
+                    composable<AppRoutes.Services> { ServiceListScreen() }
+                    composable<AppRoutes.Events> { EventCalendarScreen() }
+                    composable<AppRoutes.Sermons> { SermonListScreen() }
+                    composable<AppRoutes.Settings> { SettingsScreen() }
 
                     // Detail destinations (bottom bar auto-hides)
                     composable<AppRoutes.BulletinDetail> { entry ->

@@ -12,9 +12,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import com.gracefeed.core.presentation.screens.GenericDetailScreen
 import com.gracefeed.core.presentation.components.DetailCard
+import com.gracefeed.core.presentation.components.DetailRow
 import com.gracefeed.core.presentation.components.InfoRow
 import com.gracefeed.core.presentation.components.StatusBadge
-import com.gracefeed.domain.model.Event
 
 @Composable
 fun EventDetailScreen(
@@ -36,16 +36,19 @@ fun EventDetailScreen(
                 isLoading = false,
                 onBackClick = onBackClick,
                 detailContent = { event ->
-                    DetailCard {
-                        InfoRow(label = "Start Date", value = event.startDate.toString())
-                        InfoRow(label = "End Date", value = event.endDate.toString())
-                        InfoRow(label = "Location", value = event.location)
-                        InfoRow(label = "Category", value = event.category)
-                        InfoRow(label = "Description", value = event.description)
-                        StatusBadge(text = if (event.isRecurring) "Recurring" else "One-time")
-                        if (event.hasRsvp && event.rsvpLink.isNotEmpty()) {
-                            InfoRow(label = "RSVP Link", value = event.rsvpLink)
-                        }
+                    DetailCard(
+                        title = "Event Details",
+                        rows = listOf(
+                            DetailRow(label = "Start Date", value = event.startDate.toString()),
+                            DetailRow(label = "End Date", value = event.endDate.toString()),
+                            DetailRow(label = "Location", value = event.location),
+                            DetailRow(label = "Category", value = event.category),
+                            DetailRow(label = "Description", value = event.description),
+                        )
+                    )
+                    StatusBadge(text = if (event.isRecurring) "Recurring" else "One-time")
+                    if (event.hasRsvp && event.rsvpLink.isNotEmpty()) {
+                        InfoRow(label = "RSVP Link", value = event.rsvpLink)
                     }
                 }
             )

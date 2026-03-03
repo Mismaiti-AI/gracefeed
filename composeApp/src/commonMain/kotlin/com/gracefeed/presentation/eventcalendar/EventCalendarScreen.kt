@@ -38,8 +38,8 @@ fun EventCalendarScreen(
                 CalendarEvent(
                     id = event.id,
                     title = event.title,
-                    startDateTime = event.startDate,
-                    endDateTime = event.endDate,
+                    startMillis = event.startDate.toEpochMilliseconds(),
+                    endMillis = event.endDate.toEpochMilliseconds(),
                     description = event.description,
                     location = event.location
                 )

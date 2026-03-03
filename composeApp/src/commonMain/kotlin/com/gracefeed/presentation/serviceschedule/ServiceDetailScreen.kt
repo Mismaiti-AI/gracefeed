@@ -12,8 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import com.gracefeed.core.presentation.screens.GenericDetailScreen
 import com.gracefeed.core.presentation.components.DetailCard
-import com.gracefeed.core.presentation.components.InfoRow
-import com.gracefeed.domain.model.Service
+import com.gracefeed.core.presentation.components.DetailRow
 
 @Composable
 fun ServiceDetailScreen(
@@ -33,14 +32,17 @@ fun ServiceDetailScreen(
             item = state.service,
             onBackClick = onBackClick,
             detailContent = { service ->
-                DetailCard {
-                    InfoRow(label = "Time", value = service.regularTime)
-                    InfoRow(label = "Location", value = service.regularLocation)
-                    InfoRow(label = "Active This Week", value = if(service.isActiveThisWeek) "Yes" else "No")
-                    if(service.specialNote.isNotBlank()) {
-                        InfoRow(label = "Special Note", value = service.specialNote)
+                DetailCard(
+                    title = "Service Info",
+                    rows = buildList {
+                        add(DetailRow(label = "Time", value = service.regularTime))
+                        add(DetailRow(label = "Location", value = service.regularLocation))
+                        add(DetailRow(label = "Active This Week", value = if (service.isActiveThisWeek) "Yes" else "No"))
+                        if (service.specialNote.isNotBlank()) {
+                            add(DetailRow(label = "Special Note", value = service.specialNote))
+                        }
                     }
-                }
+                )
             }
         )
         is ServiceDetailUiState.Error -> {

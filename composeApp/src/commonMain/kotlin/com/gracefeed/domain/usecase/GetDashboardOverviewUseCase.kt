@@ -34,7 +34,7 @@ class GetDashboardOverviewUseCase(
         val upcomingEvents = events.filter { it.startDate >= now }
         val latestSermons = sermons.sortedByDescending { it.date }.take(3)
         val activeServices = services.filter { it.isActiveThisWeek }
-        
+
         DashboardOverview(
             bulletinCount = bulletins.size,
             upcomingEvents = upcomingEvents.take(3),

@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -50,7 +49,6 @@ fun BulletinListScreen(
                     ListItemCard(
                         title = bulletin.title,
                         subtitle = bulletin.dailyVerse,
-                        onClick = { onItemClick(bulletin.id) }
                     )
                 }
             )

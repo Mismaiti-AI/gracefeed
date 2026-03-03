@@ -1,5 +1,6 @@
 package com.gracefeed.presentation.serviceschedule
 
+import androidx.lifecycle.viewModelScope
 import com.gracefeed.core.presentation.BaseViewModel
 import com.gracefeed.core.presentation.UiState
 import kotlinx.coroutines.flow.StateFlow

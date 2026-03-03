@@ -1,11 +1,13 @@
 package com.gracefeed.presentation.settings
 
+import androidx.lifecycle.viewModelScope
 import com.gracefeed.core.presentation.BaseViewModel
 import com.gracefeed.core.presentation.UiState
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import com.gracefeed.domain.model.AppSetting
 import com.gracefeed.domain.usecase.GetSettingsUseCase
 import com.gracefeed.domain.usecase.UpdateSettingUseCase
@@ -34,9 +36,9 @@ class SettingsViewModel(
 
     fun loadSettings() = safeLaunch { getSettingsUseCase.load() }
     fun refresh() = safeLaunch { getSettingsUseCase.load() }
-    
+
     fun updateDarkMode(enabled: Boolean) = safeLaunch {
-        val currentSettings = getSettingsUseCase().value.firstOrNull() ?: AppSetting()
+        val currentSettings = getSettingsUseCase().first().firstOrNull() ?: AppSetting()
         val updatedSetting = currentSettings.copy(darkModeEnabled = enabled)
         updateSettingUseCase(updatedSetting)
     }

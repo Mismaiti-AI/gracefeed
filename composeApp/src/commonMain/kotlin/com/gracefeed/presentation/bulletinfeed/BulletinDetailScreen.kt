@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import com.gracefeed.core.presentation.screens.GenericDetailScreen
 import com.gracefeed.core.presentation.components.DetailCard
+import com.gracefeed.core.presentation.components.DetailRow
 import com.gracefeed.core.presentation.components.InfoRow
 import com.gracefeed.domain.model.Bulletin
 
@@ -43,21 +45,13 @@ fun BulletinDetailScreen(
                 menuActions = emptyList(),
                 headerContent = null,
                 detailContent = { bulletin ->
-                    DetailCard(title = "Daily Verse") {
-                        Text(text = bulletin.dailyVerse, modifier = Modifier.padding(16.dp))
-                    }
-                    
-                    DetailCard(title = "News Content") {
-                        Text(text = bulletin.newsContent, modifier = Modifier.padding(16.dp))
-                    }
-                    
-                    DetailCard(title = "Events") {
-                        Text(text = bulletin.events, modifier = Modifier.padding(16.dp))
-                    }
-                    
-                    DetailCard(title = "Weekday Gatherings") {
-                        Text(text = bulletin.weekdayGatherings, modifier = Modifier.padding(16.dp))
-                    }
+                    DetailCard(title = "Daily Verse", rows = listOf(
+                        DetailRow(label = "Verse", value = bulletin.dailyVerse),
+                        DetailRow(label = "News Content", value = bulletin.newsContent),
+                        DetailRow(label = "Events", value = bulletin.events),
+                        DetailRow(label = "Weekday Gatherings", value = bulletin.weekdayGatherings),
+                    ))
+
                     
                     InfoRow(label = "Week Start Date", value = bulletin.weekStartDate.toString())
                 }
@@ -74,7 +68,7 @@ fun BulletinDetailScreen(
     }
     
     // Load the bulletin when the screen is composed
-    androidx.compose.runtime LaunchedEffect(bulletinId) {
+    LaunchedEffect(bulletinId) {
         viewModel.loadBulletin(bulletinId)
     }
 }
