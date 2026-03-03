@@ -248,5 +248,139 @@
     ],
     "setup_completed_at": "2026-03-03T09:29:14.914166",
     "web_client_id": "895655507033-jn7chf3189n95i0j3egfcubfhnlm7o9m.apps.googleusercontent.com"
+  },
+  "ui_orchestration": {
+    "screens": [
+      {
+        "feature": "Bulletin Feed",
+        "screens": [
+          {
+            "name": "BulletinListScreen",
+            "generic_screen": "GenericListScreen",
+            "card_type": "ListItemCard",
+            "components": []
+          },
+          {
+            "name": "BulletinDetailScreen",
+            "generic_screen": "GenericDetailScreen",
+            "card_type": "DetailCard",
+            "components": [
+              "InfoRow"
+            ]
+          }
+        ]
+      },
+      {
+        "feature": "Service Schedule",
+        "screens": [
+          {
+            "name": "ServiceListScreen",
+            "generic_screen": "GenericListScreen",
+            "card_type": "ListItemCard",
+            "components": []
+          },
+          {
+            "name": "ServiceDetailScreen",
+            "generic_screen": "GenericDetailScreen",
+            "card_type": "DetailCard",
+            "components": [
+              "InfoRow"
+            ]
+          }
+        ]
+      },
+      {
+        "feature": "Event Calendar",
+        "screens": [
+          {
+            "name": "EventCalendarScreen",
+            "generic_screen": "GenericListScreen",
+            "card_type": "ListItemCard",
+            "components": []
+          },
+          {
+            "name": "EventDetailScreen",
+            "generic_screen": "GenericDetailScreen",
+            "card_type": "DetailCard",
+            "components": [
+              "InfoRow",
+              "StatusBadge"
+            ]
+          }
+        ]
+      },
+      {
+        "feature": "Sermon Archive",
+        "screens": [
+          {
+            "name": "SermonListScreen",
+            "generic_screen": "GenericListScreen",
+            "card_type": "ListItemCard",
+            "components": []
+          },
+          {
+            "name": "SermonDetailScreen",
+            "generic_screen": "GenericDetailScreen",
+            "card_type": "DetailCard",
+            "components": [
+              "InfoRow"
+            ]
+          }
+        ]
+      },
+      {
+        "feature": "Settings",
+        "screens": [
+          {
+            "name": "SettingsScreen",
+            "generic_screen": "GenericSettingsScreen",
+            "card_type": "ListItemCard",
+            "components": [
+              "SwitchRow"
+            ]
+          }
+        ]
+      }
+    ],
+    "navigation": {
+      "tabs": [
+        {
+          "label": "Home",
+          "icon": "Home",
+          "feature": "Dashboard"
+        },
+        {
+          "label": "Events",
+          "icon": "List",
+          "feature": "Event Calendar"
+        },
+        {
+          "label": "Sermons",
+          "icon": "List",
+          "feature": "Sermon Archive"
+        },
+        {
+          "label": "Settings",
+          "icon": "Settings",
+          "feature": "Settings"
+        }
+      ],
+      "start_route": "Dashboard"
+    },
+    "dashboard": {
+      "stats": [
+        {
+          "model": "Bulletin",
+          "type": "count",
+          "label": "New Bulletins"
+        },
+        {
+          "model": "Event",
+          "type": "filtered",
+          "label": "Upcoming Events",
+          "filter": "startDate"
+        }
+      ]
+    }
   }
 }
