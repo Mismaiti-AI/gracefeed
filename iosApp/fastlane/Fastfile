@@ -101,6 +101,17 @@ platform :ios do
   lane :build do
     sync_signing
 
+    # Apply manual signing settings from match to the Xcode project
+    bundle_id = ENV["APP_BUNDLE_ID"] || "com.mismaiti.app"
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "iosApp.xcodeproj",
+      team_id: ENV["TEAM_ID"],
+      code_sign_identity: "Apple Distribution",
+      profile_name: ENV["sigh_#{bundle_id}_appstore_profile-name"],
+      bundle_identifier: bundle_id,
+    )
+
     # Build number: use GitHub run number if available, otherwise timestamp
     build_number = ENV["GITHUB_RUN_NUMBER"] || Time.now.strftime("%Y%m%d%H%M")
     increment_build_number(
@@ -117,7 +128,7 @@ platform :ios do
       output_name: "app.ipa",
       clean: true,
       cloned_source_packages_path: "SourcePackages",
-      xcargs: "DEVELOPMENT_TEAM='#{ENV["TEAM_ID"]}' CODE_SIGN_STYLE=Manual",
+      xcargs: "DEVELOPMENT_TEAM='#{ENV["TEAM_ID"]}'",
     )
   end
 
