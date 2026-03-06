@@ -2,9 +2,9 @@ import SwiftUI
 import ComposeApp
 import FirebaseCore
 import FirebaseMessaging
+import UserNotifications
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    Note: Add MessagingDelegate, UNUserNotificationCenterDelegate to AppDelegate conformance
+class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
 
     func application(
         _ application: UIApplication,
@@ -29,7 +29,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
-        DeepLinkBridgeKt.handleDeepLinkUri(uri: url.absoluteString)
+        DeepLinkBridge.shared.handleDeepLinkUri(uri: url.absoluteString)
         return true
     }
     // [deep_linking] end
@@ -42,12 +42,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
 
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    @objc func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let token = fcmToken else { return }
         IosPushNotificationService.companion.fcmToken = token
     }
 
-    func userNotificationCenter(
+    @objc func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void

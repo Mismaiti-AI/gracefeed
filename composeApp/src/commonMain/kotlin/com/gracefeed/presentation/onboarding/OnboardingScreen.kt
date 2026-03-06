@@ -1,7 +1,6 @@
 package com.gracefeed.presentation.onboarding
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.gracefeed.core.presentation.screens.GenericOnboardingScreen
 import com.gracefeed.core.presentation.screens.OnboardingPage
 import com.gracefeed.core.data.local.AppSettings

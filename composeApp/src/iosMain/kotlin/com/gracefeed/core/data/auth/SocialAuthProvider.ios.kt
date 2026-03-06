@@ -3,10 +3,7 @@ package com.gracefeed.core.data.auth
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.allocArrayOf
 import kotlinx.cinterop.convert
-import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.refTo
 import kotlinx.cinterop.usePinned
 import kotlinx.coroutines.CompletableDeferred
 import platform.AuthenticationServices.ASAuthorization
@@ -17,7 +14,6 @@ import platform.AuthenticationServices.ASAuthorizationControllerDelegateProtocol
 import platform.AuthenticationServices.ASAuthorizationControllerPresentationContextProvidingProtocol
 import platform.AuthenticationServices.ASAuthorizationScopeEmail
 import platform.AuthenticationServices.ASAuthorizationScopeFullName
-import platform.Foundation.NSData
 import platform.Foundation.NSError
 import platform.Foundation.create
 import platform.Security.SecRandomCopyBytes
@@ -28,8 +24,6 @@ import platform.UIKit.UIWindowScene
 import platform.darwin.NSObject
 
 // CommonCrypto SHA256 via cinterop
-import kotlinx.cinterop.UByteVar
-import kotlinx.cinterop.allocArray
 import platform.CoreCrypto.CC_SHA256
 import platform.CoreCrypto.CC_SHA256_DIGEST_LENGTH
 
@@ -88,10 +82,10 @@ private fun sha256(input: String): String {
     val data = input.encodeToByteArray()
     val digest = UByteArray(CC_SHA256_DIGEST_LENGTH)
 
-    memScoped {
-        val dataPtr = allocArrayOf(*data)
-        val digestPtr = digest.refTo(0)
-        CC_SHA256(dataPtr, data.size.convert(), digestPtr)
+    data.usePinned { dataPinned ->
+        digest.usePinned { digestPinned ->
+            CC_SHA256(dataPinned.addressOf(0), data.size.convert(), digestPinned.addressOf(0))
+        }
     }
 
     return digest.joinToString("") {

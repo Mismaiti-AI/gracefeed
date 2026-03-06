@@ -55,7 +55,6 @@ fun EventCalendarScreen(
                 selectedDayEvents = calendarEvents,
                 onDayClick = { /* Handle day click */ },
                 onEventClick = { event -> onItemClick(event.id) },
-                onBackClick = onBackClick,
                 onRefresh = { viewModel.refresh() }
             )
         }

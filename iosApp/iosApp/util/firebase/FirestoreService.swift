@@ -3,7 +3,7 @@ import FirebaseFirestore
 import ComposeApp
 
 class IOSFirestoreService: NSObject, FirestoreService {
-
+    
     private lazy var db: Firestore = {
         Firestore.firestore()
     }()
@@ -18,7 +18,7 @@ class IOSFirestoreService: NSObject, FirestoreService {
     // For the template, we provide one-shot methods.
     // The code-gen LLM can add real-time wrappers as needed.
 
-    func observeCollection(collectionPath: String) -> any Kotlinx_coroutines_coreFlow {
+    func observeCollection(collectionPath: String) -> any Kotlinx_coroutines_coreFlow{
         // Placeholder — real-time needs CFlow bridge or polling
         fatalError("Use Android for real-time or implement CFlow bridge")
     }
@@ -27,41 +27,40 @@ class IOSFirestoreService: NSObject, FirestoreService {
         fatalError("Use Android for real-time or implement CFlow bridge")
     }
 
-    func getCollection(collectionPath: String) async throws -> [NSDictionary] {
+    func getCollection(collectionPath: String) async throws -> [[String: Any]] {
         let snapshot = try await db.collection(collectionPath).getDocuments()
         return snapshot.documents.map { doc in
-            let data = NSMutableDictionary(dictionary: doc.data())
+            var data = doc.data()
             data["id"] = doc.documentID
             return data
         }
     }
 
-    func getDocument(collectionPath: String, documentId: String) async throws -> NSDictionary? {
+    func getDocument(collectionPath: String, documentId: String) async throws -> [String: Any]? {
         let doc = try await db.collection(collectionPath).document(documentId).getDocument()
-        guard let data = doc.data() else { return nil }
-        let result = NSMutableDictionary(dictionary: data)
-        result["id"] = doc.documentID
-        return result
+        guard var data = doc.data() else { return nil }
+        data["id"] = doc.documentID
+        return data
     }
 
-    func addDocument(collectionPath: String, data: NSDictionary) async throws -> String {
-        let ref = try await db.collection(collectionPath).addDocument(data: data as! [String: Any])
+    func addDocument(collectionPath: String, data: [String: Any]) async throws -> String {
+        let ref = try await db.collection(collectionPath).addDocument(data: data)
         return ref.documentID
     }
 
-    func setDocument(collectionPath: String, documentId: String, data: NSDictionary) async throws {
-        try await db.collection(collectionPath).document(documentId).setData(data as! [String: Any])
+    func setDocument(collectionPath: String, documentId: String, data: [String: Any]) async throws {
+        try await db.collection(collectionPath).document(documentId).setData(data)
     }
 
-    func updateDocument(collectionPath: String, documentId: String, fields: NSDictionary) async throws {
-        try await db.collection(collectionPath).document(documentId).updateData(fields as! [String: Any])
+    func updateDocument(collectionPath: String, documentId: String, fields: [String: Any]) async throws {
+        try await db.collection(collectionPath).document(documentId).updateData(fields)
     }
 
     func deleteDocument(collectionPath: String, documentId: String) async throws {
         try await db.collection(collectionPath).document(documentId).delete()
     }
 
-    func queryCollection(collectionPath: String, field: String, op: String, value: Any) async throws -> [NSDictionary] {
+    func queryCollection(collectionPath: String, field: String, op: String, value: Any) async throws -> [[String: Any]] {
         var query: Query = db.collection(collectionPath)
         switch op {
         case "==": query = query.whereField(field, isEqualTo: value)
@@ -75,7 +74,7 @@ class IOSFirestoreService: NSObject, FirestoreService {
         }
         let snapshot = try await query.getDocuments()
         return snapshot.documents.map { doc in
-            let data = NSMutableDictionary(dictionary: doc.data())
+            var data = doc.data()
             data["id"] = doc.documentID
             return data
         }

@@ -32,19 +32,7 @@ fun SettingsScreen(
             
             GenericSettingsScreen(
                 title = "Settings",
-                sections = listOf(
-                    SettingsSection(
-                        title = "Appearance",
-                        items = listOf(
-                            SettingsItem.Toggle(
-                                title = "Dark Mode",
-                                checked = darkModeEnabled,
-                                onCheckedChange = { viewModel.updateDarkMode(it) }
-                            )
-                        )
-                    )
-                ),
-                onBackClick = onBackClick,
+                showBack = false,
                 showAppearanceSection = true
             )
         }
