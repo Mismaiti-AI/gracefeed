@@ -1,6 +1,7 @@
 package com.gracefeed.core.data.deeplink
 
-import org.koin.core.context.GlobalContext
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /**
  * Bridge for iOS Swift code to send deep link URIs to the Kotlin deep link handler.
@@ -13,6 +14,10 @@ import org.koin.core.context.GlobalContext
  * }
  * ```
  */
-fun handleDeepLinkUri(uri: String) {
-    GlobalContext.get().get<DeepLinkHandler>().handleIncomingUri(uri)
+object DeepLinkBridge : KoinComponent {
+    private val deepLinkHandler: DeepLinkHandler by inject()
+
+    fun handleDeepLinkUri(uri: String) {
+        deepLinkHandler.handleIncomingUri(uri)
+    }
 }
