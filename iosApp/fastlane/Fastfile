@@ -91,7 +91,13 @@ platform :ios do
 
       # Ensure keychain is unlocked and in search list
       sh("security unlock-keychain -p #{keychain_password} ~/Library/Keychains/#{keychain_name}-db")
-      sh("security list-keychains -d user -s ~/Library/Keychains/#{keychain_name}-db")
+      sh("security list-keychains -d user -s ~/Library/Keychains/#{keychain_name}-db $(security list-keychains -d user | tr -d '\"')")
+
+      # Install Apple WWDR intermediate certificates (required for signing identity chain)
+      sh("curl -sL https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer -o /tmp/AppleWWDRCAG3.cer")
+      sh("security import /tmp/AppleWWDRCAG3.cer -k ~/Library/Keychains/#{keychain_name}-db -T /usr/bin/codesign -T /usr/bin/security")
+      sh("curl -sL https://www.apple.com/certificateauthority/AppleRootCA-G3.cer -o /tmp/AppleRootCA-G3.cer")
+      sh("security import /tmp/AppleRootCA-G3.cer -k ~/Library/Keychains/#{keychain_name}-db -T /usr/bin/codesign -T /usr/bin/security")
     end
 
     match(
@@ -147,17 +153,50 @@ platform :ios do
   # ──────────────────────────────────────────────────
   # Deploy: Upload to TestFlight
   # ──────────────────────────────────────────────────
-  desc "Upload to TestFlight"
+  desc "Upload to TestFlight and add testers"
   lane :upload_testflight do
     api_key = get_api_key
 
-    upload_to_testflight(
-      api_key: api_key,
-      ipa: "build/ipa/app.ipa",
-      skip_waiting_for_build_processing: true,
-      distribute_external: false,
-      changelog: "Build #{ENV["GITHUB_RUN_NUMBER"]} from #{ENV["GITHUB_SHA"]&.slice(0, 7) || "local"}",
-    )
+    changelog = "Build #{ENV["GITHUB_RUN_NUMBER"]} from #{ENV["GITHUB_SHA"]&.slice(0, 7) || "local"}"
+    tester_emails = (ENV["TESTER_EMAILS"] || "").split(",").map(&:strip).reject(&:empty?)
+
+    if tester_emails.empty?
+      # No testers — upload without waiting
+      upload_to_testflight(
+        api_key: api_key,
+        ipa: "build/ipa/app.ipa",
+        skip_waiting_for_build_processing: true,
+        distribute_external: false,
+        changelog: changelog,
+      )
+    else
+      # Has testers — wait for processing then distribute
+      upload_to_testflight(
+        api_key: api_key,
+        ipa: "build/ipa/app.ipa",
+        skip_waiting_for_build_processing: false,
+        distribute_external: false,
+        groups: ["Internal Testers"],
+        changelog: changelog,
+      )
+
+      # Add individual testers by email
+      tester_emails.each do |email|
+        begin
+          UI.message("Adding tester: #{email}")
+          pilot(
+            api_key: api_key,
+            distribute_only: true,
+            email: email,
+            groups: ["Internal Testers"],
+          )
+        rescue => e
+          UI.important("Could not add tester #{email}: #{e.message}")
+        end
+      end
+
+      UI.success("TestFlight testers added: #{tester_emails.join(', ')}")
+    end
   end
 
   # ──────────────────────────────────────────────────
