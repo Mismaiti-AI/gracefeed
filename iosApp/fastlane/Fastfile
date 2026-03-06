@@ -140,6 +140,7 @@ platform :ios do
     api_key = get_api_key
 
     changelog = "Build #{ENV["GITHUB_RUN_NUMBER"]} from #{ENV["GITHUB_SHA"]&.slice(0, 7) || "local"}"
+    app_name = ENV["APP_NAME"] || "App"
     tester_emails = (ENV["TESTER_EMAILS"] || "").split(",").map(&:strip).reject(&:empty?)
 
     if tester_emails.empty?
@@ -160,6 +161,8 @@ platform :ios do
         distribute_external: false,
         groups: ["Internal Testers"],
         changelog: changelog,
+        beta_app_description: "#{app_name} beta build for testing",
+        beta_app_feedback_email: ENV["APPLE_ID"],
       )
 
       # Add individual testers by email

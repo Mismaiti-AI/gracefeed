@@ -71,6 +71,7 @@ jobs:
       TEAM_ID: ${{ secrets.TEAM_ID }}
       ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
       APP_BUNDLE_ID: ${{ secrets.APP_BUNDLE_ID }}
+      APP_NAME: ${{ secrets.APP_NAME }}
       APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
       APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
       APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
