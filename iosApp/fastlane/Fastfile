@@ -74,10 +74,23 @@ platform :ios do
   lane :sync_signing do
     api_key = get_api_key
 
+    if is_ci
+      # CI: create a temporary keychain for signing
+      create_keychain(
+        name: "fastlane_keychain",
+        password: "fastlane_password",
+        default_keychain: true,
+        unlock: true,
+        timeout: 3600,
+      )
+    end
+
     match(
       type: "appstore",
       api_key: api_key,
       readonly: is_ci,
+      keychain_name: is_ci ? "fastlane_keychain" : "login.keychain",
+      keychain_password: is_ci ? "fastlane_password" : nil,
     )
   end
 
