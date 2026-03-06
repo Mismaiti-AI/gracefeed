@@ -74,24 +74,38 @@ platform :ios do
   lane :sync_signing do
     api_key = get_api_key
 
+    keychain_name = "fastlane_keychain"
+    keychain_password = "fastlane_password"
+
     if is_ci
       # CI: create a temporary keychain for signing
       create_keychain(
-        name: "fastlane_keychain",
-        password: "fastlane_password",
+        name: keychain_name,
+        password: keychain_password,
         default_keychain: true,
         unlock: true,
         timeout: 3600,
+        lock_when_sleeps: false,
+        add_to_search_list: true,
       )
+
+      # Ensure keychain is unlocked and in search list
+      sh("security unlock-keychain -p #{keychain_password} ~/Library/Keychains/#{keychain_name}-db")
+      sh("security list-keychains -d user -s ~/Library/Keychains/#{keychain_name}-db")
     end
 
     match(
       type: "appstore",
       api_key: api_key,
       readonly: is_ci,
-      keychain_name: is_ci ? "fastlane_keychain" : "login.keychain",
-      keychain_password: is_ci ? "fastlane_password" : nil,
+      keychain_name: is_ci ? keychain_name : "login.keychain",
+      keychain_password: is_ci ? keychain_password : nil,
     )
+
+    if is_ci
+      # Set partition list so codesign can access the key without UI prompt
+      sh("security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k #{keychain_password} ~/Library/Keychains/#{keychain_name}-db")
+    end
   end
 
   # ──────────────────────────────────────────────────
